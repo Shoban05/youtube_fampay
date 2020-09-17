@@ -44,7 +44,7 @@ MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -69,6 +69,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'youtube_datafetch.wsgi.application'
+
+try:
+    from .environment.local.database import *
+except Exception as exc:
+    print("error while importing config files")
+    print("exception: " + str(exc))
+    exit()
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
