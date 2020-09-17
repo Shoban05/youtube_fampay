@@ -75,6 +75,7 @@ WSGI_APPLICATION = "youtube_datafetch.wsgi.application"
 try:
     from .environment.local.database import *
     from .environment.local.cache import *
+    from .environment.local.youtube import *
 except Exception as exc:
     print("error while importing config files")
     print("exception: " + str(exc))
@@ -98,13 +99,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = "/static/"
-
-YOUTUBE_API_URL = "https://www.googleapis.com/youtube/v3/search/"
-
-YOUTUBE_API_KEYS = [
-    "AIzaSyAkJ6oYOpWZ-PDnOlrB0uTPuh15_MLpRNA",
-    "AIzaSyAtkVBlnMYUDdte7NjxUz2UWHmK1_XIJDw",
-    "AIzaSyAoXEGXrPFRQ3grNd7GI9SpR36KpNorlCg",
-]
-
-YOUTUBE_SEARCH_LIST = ["cricket125", "surfing125"]

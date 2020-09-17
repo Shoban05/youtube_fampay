@@ -13,6 +13,7 @@ import requests
 @job("default")
 def fetch_youtube_data():
     # Creating the GET API to query youtube
+    print("Task Initiated")
     url = YOUTUBE_API_URL
     api_key_index = 0
     page_token = ""
@@ -29,6 +30,8 @@ def fetch_youtube_data():
             "order": "date",
             "q": "|".join(YOUTUBE_SEARCH_LIST),
         }
+        print("Accessing Youtube Data with API_KEY: ", YOUTUBE_API_KEYS[api_key_index])
+
         try:
             response = requests.get(url, params=params)
         except Exception as exc:
@@ -45,19 +48,24 @@ def fetch_youtube_data():
                 video_id = item.get("id", {}).get("videoId")
                 snippet_data = item.get("snippet", {})
                 if snippet_data:
-                    (obj, created) = VideoData.objects.get_or_create(
-                        id=video_id,
-                        title=snippet_data.get("title"),
-                        description=snippet_data.get("description"),
-                        publishing_datetime=snippet_data.get("publishedAt"),
-                        defaults={
-                            "thumbnails_urls": snippet_data.get("thumbnails", {})
-                            .get("default", {})
-                            .get("url")
-                        },
-                    )
-                    if created:
-                        print("Successfully Created: ", obj.title)
+                    try:
+                        (obj, created) = VideoData.objects.get_or_create(
+                            id=video_id,
+                            title=snippet_data.get("title"),
+                            description=snippet_data.get("description"),
+                            publishing_datetime=snippet_data.get("publishedAt"),
+                            defaults={
+                                "thumbnails_urls": snippet_data.get("thumbnails", {})
+                                .get("default", {})
+                                .get("url")
+                            },
+                        )
+                        if created:
+                            print("Successfully Created: ", obj.title)
+                    except Exception as exc:
+                        print("Exception in saving data to db")
+                        print("Exception: " + str(exc))
+                        return
 
             # Flag to check if subsequent call is required
             if json_response.get("nextPageToken"):
@@ -67,11 +75,15 @@ def fetch_youtube_data():
 
         # If status is other than 200
         else:
-            print("Issue in Youtube Search Calls, Response: ", response.status_code)
-            print("URL: ", url, " Params: ", params)
+            print(
+                "Issue in Youtube Search Calls, Response: ",
+                response.status_code,
+                " Params: ",
+                params,
+            )
             if response.status_code == 403:
                 api_key_index += 1
-                if api_key_index > len(YOUTUBE_API_KEYS):
+                if api_key_index >= len(YOUTUBE_API_KEYS):
                     print("All API Keys Exhausted")
                     return
                 else:
@@ -79,6 +91,3 @@ def fetch_youtube_data():
             return
 
     return
-
-
-fetch_youtube_data.delay()
