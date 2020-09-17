@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'youtube',
 )
 
 MIDDLEWARE = (
@@ -95,3 +96,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+YOUTUBE_API_URL = "https://www.googleapis.com/youtube/v3/search/"
+
+YOUTUBE_API_KEY = "AIzaSyAkJ6oYOpWZ-PDnOlrB0uTPuh15_MLpRNA"
+
+YOUTUBE_SEARCH_LIST = ["cricket125", "surfing125"]
