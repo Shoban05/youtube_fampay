@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^youtube/', include('youtube.urls')),
+    url(r'^django-rq/', include('django_rq.urls')),
     url(r'^admin/', admin.site.urls),
 ]

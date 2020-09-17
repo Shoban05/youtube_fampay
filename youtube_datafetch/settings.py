@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_rq',
     'youtube',
 )
 
@@ -73,6 +74,7 @@ WSGI_APPLICATION = 'youtube_datafetch.wsgi.application'
 
 try:
     from .environment.local.database import *
+    from .environment.local.cache import *
 except Exception as exc:
     print("error while importing config files")
     print("exception: " + str(exc))
