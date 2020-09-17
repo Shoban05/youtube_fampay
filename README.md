@@ -31,7 +31,11 @@ This file will help you to get application up and running.
 * Enter username, email address, and password 
 
 
+### For Running Services
 
-
-
+* Run Redis Server in one terminal: "redis-server"
+* Run Django Server: "python manage.py runserver 0:8000"
+* Run RQ Worker: "python manage.py rqworker default"
+* Run RQ Scheduler: "python manage.py rqscheduler"
+* PS -  Make Sure to run scheduler after the django server and rq worker are initiated.
 
