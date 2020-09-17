@@ -12,7 +12,15 @@ class VideoData(models.Model):
     thumbnails_urls = models.CharField(max_length=254, null=True, blank=True)
 
     def __str__(self):
-        return '%s %s' % (self.id, self.title[:10])
+        return "%s %s" % (self.id, self.title[:10])
 
     class Meta:
-        app_label = 'youtube'
+        app_label = "youtube"
+        indexes = [
+            models.Index(fields=["title", "description"]),
+            models.Index(
+                fields=[
+                    "-publishing_datetime",
+                ]
+            ),
+        ]
